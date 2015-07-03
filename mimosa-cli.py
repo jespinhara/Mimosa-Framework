@@ -63,13 +63,15 @@ class Mimosa(Cmd):
             print "\t[%s]" % capture
 
     def do_add_list(self, arg):
-        """\
+        """
     Add a targets list
     Usage: add_list filename [Password] [FTP String]
     Examples: add_list targets.txt
               add_list targets.txt ciscoadmin ftp://mimosa:mimosapasswd@3.3.3.3/mimosafolder
     If no password and/or FTP string is given, the default values will be used\
-    (see mimosa_options)"""
+    (see mimosa_options)
+        """
+
         db = self.get_db()
         if db is None:
             return
@@ -90,8 +92,7 @@ class Mimosa(Cmd):
             def_password = db['options'].find_one({'name': 'cisco_passwd'})
             if def_password is None:
                 password = DEFAULT_PASSWORD
-                db['options'].insert({'name': 'cisco_passwd',
-                                      'value': DEFAULT_PASSWORD})
+                db['options'].insert({'name': 'cisco_passwd', 'value': DEFAULT_PASSWORD})
             else:
                 password = def_password['value']
 
@@ -100,8 +101,7 @@ class Mimosa(Cmd):
             if def_ftpstring is None or def_ftpstring['value'] == NULL_FTP_STRING:
                 db['options'].insert({'name': 'ftp_string',
                                       'value': NULL_FTP_STRING})
-                print self.colorize('* Please inform FTP string or set a default FTP'
-                                    'string (see mimosa_options)', 'red')
+                print self.colorize('* Please inform FTP string or set a default FTP string (see mimosa_options)', 'red')
                 return
             else:
                 ftp_string = def_ftpstring['value']
@@ -124,13 +124,14 @@ class Mimosa(Cmd):
             print self.colorize('! File does not exist', 'red')
 
     def do_add_target(self, arg):
-        """\
+        """
     Add a mimosa target
     Usage: add_target <IP Address> [Password] [FTP String]
     Examples: add_target 1.2.3.4
               add_target 2.2.2.2 ciscoadmin ftp://mimosa:mimosapasswd@3.3.3.3/mimosafolder
     If no password and/or FTP string is given, the default values will be used\
-    (see mimosa_options)"""
+    (see mimosa_options)
+        """
         db = self.get_db()
         if db is None:
             return
@@ -167,8 +168,7 @@ class Mimosa(Cmd):
             if def_ftpstring is None or def_ftpstring['value'] == NULL_FTP_STRING:
                 db['options'].insert({'name': 'ftp_string',
                                       'value': NULL_FTP_STRING})
-                print self.colorize('* Please inform FTP string or set a default FTP\
-string (see mimosa_options)', 'red')
+                print self.colorize('* Please inform FTP string or set a default FTP string (see mimosa_options)', 'red')
                 return
             else:
                 ftp_string = def_ftpstring['value']
@@ -186,10 +186,11 @@ string (see mimosa_options)', 'red')
         print self.colorize('* OK!', 'bold')
 
     def do_del_target(self, arg):
-        """\
+        """
     Delete a mimosa target
     Usage: del_target <IP Address>
-    Examples: del_target 1.2.3.4"""
+    Examples: del_target 1.2.3.4
+        """
         db = self.get_db()
         if db is None:
             return
@@ -202,23 +203,23 @@ string (see mimosa_options)', 'red')
         ip = args[0]
         target = db['targets'].find_one({'ip': ip})
         if target is None:
-            print self.colorize('* No target found with this IP address. Nothing to \
-do here.', 'bold')
+            print self.colorize('* No target found with this IP address. Nothing to do here.', 'bold')
             return
 
         if target['capture'] == 'RUNNING':
-            print self.colorize('* You can not delete a running target! Please \
-stop_capture first!', 'red')
+            print self.colorize('* You can not delete a running target! Please stop_capture first!', 'red')
             return
 
         db['targets'].remove(target['_id'])
         print self.colorize('* OK!', 'bold')
 
-    def do_del_all(self, arg):
+    def do_del_all(self):
         """
     Delete all mimosa targets
     Usage: del_all
-    Examples: del_all"""
+    Examples: del_all
+        """
+
         db = self.get_db()
         if db is None:
             return
@@ -230,6 +231,27 @@ stop_capture first!', 'red')
             print self.colorize('* OK', 'bold')
         else:
             print self.colorize('! Fail', 'bold')
+
+    def do_del_stopped(self):
+        """
+    Delete all mimosa targets STOPPED
+    Usage: del_stopped
+    Examples: del_stopped
+        """
+
+        db = self.get_db()
+        if db is None:
+            return
+
+        targets = db['targets'].find()
+        if targets.count() == 0:
+            print self.colorize("* No targets to delete.", "bold")
+            return
+
+        for target in targets:
+            if target['capture'] == 'STOPPED':
+                db['targets'].remove(target['_id'])
+            print self.colorize('* OK - STOPPED targets deleted', 'bold')
 
     def do_show_target(self, arg):
         """\
@@ -248,8 +270,7 @@ stop_capture first!', 'red')
         ip = args[0]
         target = db['targets'].find_one({'ip': ip})
         if target is None:
-            print self.colorize('* No target found with this IP address. Nothing to \
-do here.', 'bold')
+            print self.colorize('* No target found with this IP address. Nothing to do here.', 'bold')
             return
 
         capture = self.colorize('STOPPED', 'red')
@@ -300,7 +321,6 @@ do here.', 'bold')
             for option in options:
                 print self.colorize("  %s\t%s" % (option['name'], option['value']), 'bold')
 
-
         elif args[0] == 'set':
             if len(args) < 3:
                 print self.colorize('* Insufficient arguments.', 'red')
@@ -333,16 +353,56 @@ do here.', 'bold')
         ip = args[0]
         target = db['targets'].find_one({'ip': ip})
         if target is None:
-            print self.colorize('* No target found with this IP address. Nothing to \
-do here.', 'bold')
+            print self.colorize('* No target found with this IP address. Nothing to do here.', 'bold')
             return
 
         if target['capture'] == 'RUNNING':
-            print self.colorize('* Capture job already started for this target. Nothing to \
-do here.', 'bold')
+            print self.colorize('* Capture job already started for this target. Nothing to do here.', 'bold')
             return
 
         db['targets'].update({'ip': target['ip']}, {'$set': {'capture': 'RUNNING'}})
+
+    def do_start_all(self):
+        """
+    Start the capture job on all Mimosa target
+    Usage: start_all
+    Examples: start_all
+        """
+        db = self.get_db()
+        if db is None:
+            return
+
+        targets = db['targets'].find()
+        if targets.count() == 0:
+            print self.colorize("* No registered targets.", "bold")
+            return
+
+        for target in targets:
+            if target['capture'] == 'STOPPED':
+                db['targets'].update({'ip': target['ip']}, {'$set': {'capture': 'RUNNING'}})
+            else:
+                print self.colorize('* No target to start', 'bold')
+
+    def do_stop_all(self):
+        """
+    Stop the capture job on all Mimosa target
+    Usage: stop_all
+    Examples: stop_all
+        """
+        db = self.get_db()
+        if db is None:
+            return
+
+        targets = db['targets'].find()
+        if targets.count() == 0:
+            print self.colorize("* No registered targets.", "bold")
+            return
+
+        for target in targets:
+            if target['capture'] == 'RUNNING':
+                db['targets'].update({'ip': target['ip']}, {'$set': {'capture': 'STOPPED'}})
+            else:
+                print self.colorize('* No target to stop', 'bold')
 
     def do_stop_capture(self, arg):
         """\
@@ -361,13 +421,11 @@ do here.', 'bold')
         ip = args[0]
         target = db['targets'].find_one({'ip': ip})
         if target is None:
-            print self.colorize('* No target found with this IP address. Nothing to \
-do here.', 'bold')
+            print self.colorize('* No target found with this IP address. Nothing to do here.', 'bold')
             return
 
         if target['capture'] == 'STOPPED':
-            print self.colorize('* Capture job already stopped for this target. Nothing to \
-do here.', 'bold')
+            print self.colorize('* Capture job already stopped for this target. Nothing to do here.', 'bold')
             return
 
         db['targets'].update({'ip': target['ip']}, {'$set': {'capture': 'STOPPED'}})
