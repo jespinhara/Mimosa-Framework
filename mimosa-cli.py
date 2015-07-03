@@ -100,8 +100,8 @@ class Mimosa(Cmd):
             if def_ftpstring is None or def_ftpstring['value'] == NULL_FTP_STRING:
                 db['options'].insert({'name': 'ftp_string',
                                       'value': NULL_FTP_STRING})
-                print self.colorize('* Please inform FTP string or set a default FTP\
-            string (see mimosa_options)', 'red')
+                print self.colorize('* Please inform FTP string or set a default FTP'
+                                    'string (see mimosa_options)', 'red')
                 return
             else:
                 ftp_string = def_ftpstring['value']
@@ -119,7 +119,7 @@ class Mimosa(Cmd):
             for line in fh.readlines():
                 db['targets'].insert({'ip': line, 'password': password, 'ftp_string':
                                       ftp_string, 'capture': 'STOPPED', 'interval': interval})
-                print self.colorize('* OK!', 'bold')
+            print self.colorize('* OK!', 'bold')
         else:
             print self.colorize('! File does not exist', 'red')
 
@@ -213,6 +213,18 @@ stop_capture first!', 'red')
 
         db['targets'].remove(target['_id'])
         print self.colorize('* OK!', 'bold')
+
+    def do_del_all(self):
+        """
+    Delete all mimosa targets
+    Usage: del_all
+    Examples: del_all"""
+        db = self.get_db()
+        if db is None:
+            return
+
+        db['targets'].remove({})
+        print self.colorize('* OK', 'bold')
 
     def do_show_target(self, arg):
         """\
