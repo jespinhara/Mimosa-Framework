@@ -223,9 +223,9 @@ stop_capture first!', 'red')
         if db is None:
             return
 
-        arg = raw_input('Are you sure? (Y/n)').upper()
+        arg = raw_input('Are you sure? (y/n)').upper()
 
-        if arg == 'Y' or None:
+        if arg == 'Y':
             db['targets'].drop()
             print self.colorize('* OK', 'bold')
         else:
