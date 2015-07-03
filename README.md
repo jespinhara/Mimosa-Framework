@@ -35,6 +35,8 @@ or
 pip install -r requirements.txt
 ```
 
+Also, you need install the MongoDB to data persistence.
+
 ```
 apt-get install mongodb
 ```
