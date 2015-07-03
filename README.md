@@ -16,6 +16,12 @@ Some relevant points before about the project:
 4. This is really useful tool for threat intelligence data gathering
 5. You have to get **ENABLE** privilege on the router to use Mimosa
 
+## Dependencies
+
+pexpect
+cmd2
+MongoDB
+
 ## Usage
 
 ```
