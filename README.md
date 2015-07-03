@@ -27,6 +27,15 @@ pip install cmd2
 ```
 
 ```
+pip install pymongo
+```
+or
+
+```
+pip install -r requirements.txt
+```
+
+```
 apt-get install mongodb
 ```
 
