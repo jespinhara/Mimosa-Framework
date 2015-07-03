@@ -18,9 +18,17 @@ Some relevant points before about the project:
 
 ## Dependencies
 
-pexpect -> pip install pexpect
-cmd2 -> pip install cmd2
-MongoDB
+```
+pip install pexpect
+```
+
+```
+pip install cmd2
+```
+
+```
+apt-get install mongodb
+```
 
 ## Usage
 
