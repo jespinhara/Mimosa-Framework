@@ -214,7 +214,7 @@ stop_capture first!', 'red')
         db['targets'].remove(target['_id'])
         print self.colorize('* OK!', 'bold')
 
-    def do_del_all(self):
+    def do_del_all(self, arg):
         """
     Delete all mimosa targets
     Usage: del_all
@@ -223,8 +223,13 @@ stop_capture first!', 'red')
         if db is None:
             return
 
-        db['targets'].remove({})
-        print self.colorize('* OK', 'bold')
+        arg = raw_input('Are you sure? (Y/n)').upper()
+
+        if arg == 'Y' or None:
+            db['targets'].drop()
+            print self.colorize('* OK', 'bold')
+        else:
+            print self.colorize('! Fail', 'bold')
 
     def do_show_target(self, arg):
         """\
