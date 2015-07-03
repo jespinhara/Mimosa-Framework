@@ -213,7 +213,7 @@ class Mimosa(Cmd):
         db['targets'].remove(target['_id'])
         print self.colorize('* OK!', 'bold')
 
-    def do_del_all(self):
+    def do_del_all(self, arg):
         """
     Delete all mimosa targets
     Usage: del_all
@@ -232,7 +232,7 @@ class Mimosa(Cmd):
         else:
             print self.colorize('! Fail', 'bold')
 
-    def do_del_stopped(self):
+    def do_del_stopped(self, arg):
         """
     Delete all mimosa targets STOPPED
     Usage: del_stopped
@@ -362,12 +362,13 @@ class Mimosa(Cmd):
 
         db['targets'].update({'ip': target['ip']}, {'$set': {'capture': 'RUNNING'}})
 
-    def do_start_all(self):
+    def do_start_all(self, arg):
         """
     Start the capture job on all Mimosa target
     Usage: start_all
     Examples: start_all
         """
+
         db = self.get_db()
         if db is None:
             return
@@ -383,7 +384,7 @@ class Mimosa(Cmd):
             else:
                 print self.colorize('* No target to start', 'bold')
 
-    def do_stop_all(self):
+    def do_stop_all(self, arg):
         """
     Stop the capture job on all Mimosa target
     Usage: stop_all
