@@ -6,3 +6,5 @@
 - Write ferret module
 - Advanced options (e.g. name of capture buffer)
 
+- Start all targets
+- Stop all targets

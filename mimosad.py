@@ -8,7 +8,7 @@
 #
 
 from daemon import Daemon
-from pymongo import Connection
+from pymongo import MongoClient
 import sched, time, sys, os, logging, threading, urllib, tempfile
 from cisco_epc import start_epc, stop_epc, collect_epc
 
@@ -46,7 +46,7 @@ class Mimosad(Daemon):
 
   def __init__(self, pidfile):
     try:
-      self.dbconn = Connection()
+      self.dbconn = MongoClient() #Connection()
       self.s = sched.scheduler(time.time, time.sleep)
       logging.basicConfig(format='[%(asctime)s][%(levelname)s] %(message)s', filename=LOGFILE,level=LOGLEVEL)
     except Exception, e:
@@ -64,7 +64,7 @@ class Mimosad(Daemon):
   def get_db(self):
     try:
       if self.dbconn == None:
-        self.dbconn = Connection()
+        self.dbconn = MongoClient() #Connection()
         
       self.dbconn.server_info()
       return self.dbconn['mimosa']
@@ -184,8 +184,6 @@ Can not do anything but override this and move on.' %
 
     self.s.enter(10, 1, Mimosad.run, (self,))
     self.s.run()
-
-
 
 def print_usage():
   print 'Mimosa daemon.'

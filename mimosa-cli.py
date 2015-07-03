@@ -34,7 +34,6 @@ class Mimosa(Cmd):
       print self.colorize("Cannot continue.", "red")
       return None
 
-
   def do_moo(self, arg):
     print self.colorize('Moo!', 'red')
 
@@ -292,8 +291,6 @@ do here.', 'bold')
       return
 
     db['targets'].update({'ip' : target['ip']}, {'$set' : {'capture' : 'STOPPED'}})
-
-  
 
 mimosa = Mimosa()
 mimosa.cmdloop()
