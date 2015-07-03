@@ -18,8 +18,8 @@ Some relevant points before about the project:
 
 ## Dependencies
 
-pexpect
-cmd2
+pexpect -> pip install pexpect
+cmd2 -> pip install cmd2
 MongoDB
 
 ## Usage
