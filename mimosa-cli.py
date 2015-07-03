@@ -8,7 +8,7 @@
 #
 
 from cmd2 import Cmd
-from pymongo import Connection
+from pymongo import MongoClient
 
 DEFAULT_PASSWORD="cisco"
 DEFAULT_INTERVAL="300"
@@ -22,7 +22,7 @@ class Mimosa(Cmd):
   def get_db(self):
     try:
       if self.dbconn == None:
-        self.dbconn = Connection()
+        self.dbconn = MongoClient()
         
       self.dbconn.server_info()
       return self.dbconn['mimosa']

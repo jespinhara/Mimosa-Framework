@@ -46,7 +46,7 @@ class Mimosad(Daemon):
 
   def __init__(self, pidfile):
     try:
-      self.dbconn = MongoClient() #Connection()
+      self.dbconn = MongoClient()
       self.s = sched.scheduler(time.time, time.sleep)
       logging.basicConfig(format='[%(asctime)s][%(levelname)s] %(message)s', filename=LOGFILE,level=LOGLEVEL)
     except Exception, e:
@@ -64,7 +64,7 @@ class Mimosad(Daemon):
   def get_db(self):
     try:
       if self.dbconn == None:
-        self.dbconn = MongoClient() #Connection()
+        self.dbconn = MongoClient()
         
       self.dbconn.server_info()
       return self.dbconn['mimosa']
@@ -200,7 +200,6 @@ mimosad = Mimosad(PIDFILE)
 if sys.argv[1] == 'start':
   logging.info('Starting MimosaD...')
   mimosad.start()
-  #mimosad.run()
 elif sys.argv[1] == 'stop':
   logging.info('Stopping MimosaD...')
   mimosad.stop()
